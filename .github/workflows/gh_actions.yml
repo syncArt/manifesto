@@ -16,7 +16,7 @@ jobs:
       - name: Get Previous Tag
         id: get_previous_tag
         run: |
-          PREVIOUS_TAG=$(git describe --abbrev=0 --tags)
+          PREVIOUS_TAG=$(git tag --sort=committerdate | tail -1)
           echo "Previous tag: $PREVIOUS_TAG"
           echo "::set-output name=previous_tag::$PREVIOUS_TAG"
           
