@@ -22,7 +22,7 @@ jobs:
             git tag -d $PREV_TAG
             git push origin :refs/tags/$PREV_TAG
           else
-            echo "No tags found. Skipping delete."
+            echo "No previous tag found. Skipping delete."
           fi
         env: 
           GITHUB_TOKEN: ${{ secrets.PAT_ACTIONS }}
