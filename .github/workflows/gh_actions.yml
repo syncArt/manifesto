@@ -1,4 +1,4 @@
-name: Auto Tag on New Commit
+name: Current version
 
 on:
   push:
@@ -8,17 +8,16 @@ on:
 jobs:
   create_tag:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        
-      - name: Create Tag
-        id: create_tag
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git tag -a "v${{ github.run_number }}" -m "Auto-generated tag"
-          git push origin "v${{ github.run_number }}"
-        env: 
-          GITHUB_TOKEN: ${{ secrets.PAT_ACTIONS }}
+      - uses: actions/checkout@v2
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
