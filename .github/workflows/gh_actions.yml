@@ -17,9 +17,9 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          PREV_TAG="v$((${{ github.run_number }}-1))"
-          git tag -d $PREV_TAG
-          git push origin :refs/tags/$PREV_TAG
+          PREV_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
+          git tag -d $PREV_TAG || echo "Previous tag not found. Skipping delete."
+          git push origin :refs/tags/$PREV_TAG || echo "Previous tag not found. Skipping delete."
         env: 
           GITHUB_TOKEN: ${{ secrets.PAT_ACTIONS }}
         
