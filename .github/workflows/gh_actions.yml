@@ -13,13 +13,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         
-      - name: Get Previous Tag
-        id: get_previous_tag
+      - name: Delete Previous Tag
         run: |
-          PREVIOUS_TAG=$(git tag --sort=committerdate | tail -1)
-          echo "Previous tag: $PREVIOUS_TAG"
-          echo "::set-output name=previous_tag::$PREVIOUS_TAG"
-          
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          PREV_TAG="v$((${{ github.run_number }}-1))"
+          git tag -d $PREV_TAG
+          git push origin :refs/tags/$PREV_TAG
+        env: 
+          GITHUB_TOKEN: ${{ secrets.PAT_ACTIONS }}
+        
       - name: Create Tag
         id: create_tag
         run: |
@@ -29,10 +32,3 @@ jobs:
           git push origin "v${{ github.run_number }}"
         env: 
           GITHUB_TOKEN: ${{ secrets.PAT_ACTIONS }}
-
-      - name: Delete Previous Tag
-        if: steps.get_previous_tag.outputs.previous_tag != ''
-        run: |
-          PREVIOUS_TAG=${{ steps.get_previous_tag.outputs.previous_tag }}
-          git tag -d "$PREVIOUS_TAG"
-          git push origin --delete "$PREVIOUS_TAG"
