@@ -1,4 +1,4 @@
-name: Auto Tag on New Commit
+name: Current version
 
 on:
   push:
