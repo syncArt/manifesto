@@ -1,0 +1,24 @@
+name: Auto Tag on New Commit
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create_tag:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Create Tag
+        id: create_tag
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git tag -a "v${{ github.run_number }}" -m "Auto-generated tag"
+          git push origin "v${{ github.run_number }}"
+        env: 
+          GITHUB_TOKEN: ${{ secrets.PAT_ACTIONS }}
