@@ -36,4 +36,3 @@ jobs:
           PREVIOUS_TAG=${{ steps.get_previous_tag.outputs.previous_tag }}
           git tag -d "$PREVIOUS_TAG"
           git push origin --delete "$PREVIOUS_TAG"
-Update gh_actions.yml · syncArt/manifesto@60d570e
