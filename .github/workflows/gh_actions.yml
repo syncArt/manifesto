@@ -1,3 +1,26 @@
+Skip to content
+syncArt
+/
+manifesto
+
+Type / to search
+
+Code
+Issues
+Pull requests
+Discussions
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+Auto Tag on New Commit
+Update gh_actions.yml #14
+Jobs
+Run details
+Workflow file for this run
+.github/workflows/gh_actions.yml at 60d570e
 name: Auto Tag on New Commit
 
 on:
@@ -13,20 +36,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         
-      - name: Delete Previous Tag
+      - name: Get Previous Tag
+        id: get_previous_tag
         run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          if git rev-list --tags --max-count=1 >/dev/null 2>&1; then
-            PREV_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
-            git tag -d $PREV_TAG
-            git push origin :refs/tags/$PREV_TAG
-          else
-            echo "No previous tag found. Skipping delete."
-          fi
-        env: 
-          GITHUB_TOKEN: ${{ secrets.PAT_ACTIONS }}
-        
+          PREVIOUS_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
+          echo "Previous tag: $PREVIOUS_TAG"
+          echo "::set-output name=previous_tag::$PREVIOUS_TAG"
+          
       - name: Create Tag
         id: create_tag
         run: |
@@ -36,3 +52,11 @@ jobs:
           git push origin "v${{ github.run_number }}"
         env: 
           GITHUB_TOKEN: ${{ secrets.PAT_ACTIONS }}
+
+      - name: Delete Previous Tag
+        if: steps.get_previous_tag.outputs.previous_tag != ''
+        run: |
+          PREVIOUS_TAG=${{ steps.get_previous_tag.outputs.previous_tag }}
+          git tag -d "$PREVIOUS_TAG"
+          git push origin --delete "$PREVIOUS_TAG"
+Update gh_actions.yml · syncArt/manifesto@60d570e
