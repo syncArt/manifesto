@@ -1,26 +1,3 @@
-Skip to content
-syncArt
-/
-manifesto
-
-Type / to search
-
-Code
-Issues
-Pull requests
-Discussions
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-Auto Tag on New Commit
-Update gh_actions.yml #14
-Jobs
-Run details
-Workflow file for this run
-.github/workflows/gh_actions.yml at 60d570e
 name: Auto Tag on New Commit
 
 on:
