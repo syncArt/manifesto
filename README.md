@@ -10,5 +10,4 @@ Every blockchain network creator should provide such a basic application version
 
 The key role in the new approach to serving the artist's role on the internet is the selection/creation of a blockchain network and contracts operating on the blockchain network. These models define specific data requirements for communication and allow for scalability. This is the starting point because without functioning logic and network scalability, the application is not viable. Another aspect is an application that enables communication with the blockchain. It should provide all possible network functionalities in a user-friendly graphical interface. Additionally, a mobile application is necessary to scan identifiers at artistic events. Another consideration is the use of AI, which will aid in data analysis, support the artist in decision-making, and provide inspiration for their work.
 
-
 discord: https://discord.gg/RV6nmsGrgH
